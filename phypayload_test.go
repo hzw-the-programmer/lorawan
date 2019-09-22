@@ -113,7 +113,7 @@ func TestPHYPayloadMACPayloadLoRaWAN10(t *testing.T) {
 					},
 					MACPayload: &MACPayload{
 						FHDR: FHDR{
-							DevAddr: DevAddr{1, 2, 3, 4},
+							DevAddr: DevAddr{0x01, 0x02, 0x03, 0x04},
 							FCtrl: FCtrl{
 								ADR: true,
 							},
@@ -124,11 +124,19 @@ func TestPHYPayloadMACPayloadLoRaWAN10(t *testing.T) {
 							&DataPayload{Bytes: []byte("hello")},
 						},
 					},
-					MIC: MIC{214, 195, 181, 130},
+					MIC: MIC{0xd6, 0xc3, 0xb5, 0x82},
 				},
 				NwkSEncKey: AES128Key{2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
 				AppSKey:    AES128Key{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-				Bytes:      []byte{64, 4, 3, 2, 1, 128, 1, 0, 1, 166, 148, 100, 38, 21, 214, 195, 181, 130},
+				Bytes: []byte{
+					0x40,
+					0x04, 0x03, 0x02, 0x01,
+					0x80,
+					0x01, 0x00,
+					0x01,
+					0xa6, 0x94, 0x64, 0x26, 0x15,
+					0xd6, 0xc3, 0xb5, 0x82,
+				},
 			},
 			{
 				Name: "Mac-commands in FOpts",
@@ -139,7 +147,7 @@ func TestPHYPayloadMACPayloadLoRaWAN10(t *testing.T) {
 					},
 					MACPayload: &MACPayload{
 						FHDR: FHDR{
-							DevAddr: DevAddr{1, 2, 3, 4},
+							DevAddr: DevAddr{0x01, 0x02, 0x03, 0x04},
 							FOpts: []Payload{
 								&mac1,
 								&mac2,
@@ -147,14 +155,23 @@ func TestPHYPayloadMACPayloadLoRaWAN10(t *testing.T) {
 						},
 						FPort: &fPort1,
 						FRMPayload: []Payload{
-							&DataPayload{Bytes: []byte{1, 2, 3, 4}},
+							&DataPayload{Bytes: []byte{0x1, 0x02, 0x03, 0x04}},
 						},
 					},
-					MIC: MIC{182, 77, 192, 57},
+					MIC: MIC{0xb6, 0x4d, 0xc0, 0x39},
 				},
 				NwkSEncKey: AES128Key{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 				AppSKey:    AES128Key{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-				Bytes:      []byte{64, 4, 3, 2, 1, 3, 0, 0, 2, 3, 5, 1, 106, 55, 152, 245, 182, 77, 192, 57},
+				Bytes: []byte{
+					0x40,
+					0x04, 0x03, 0x02, 0x01,
+					0x03,
+					0x00, 0x00,
+					0x02, 0x03, 0x05,
+					0x01,
+					0x6a, 0x37, 0x98, 0xf5,
+					0xb6, 0x4d, 0xc0, 0x39,
+				},
 			},
 			{
 				Name: "Mac-commands in FRMPayload",
@@ -164,10 +181,10 @@ func TestPHYPayloadMACPayloadLoRaWAN10(t *testing.T) {
 						Major: LoRaWANR1,
 					},
 					MACPayload: &MACPayload{
-						FPort: &fPort0,
 						FHDR: FHDR{
-							DevAddr: DevAddr{1, 2, 3, 4},
+							DevAddr: DevAddr{0x01, 0x02, 0x03, 0x04},
 						},
+						FPort: &fPort0,
 						FRMPayload: []Payload{
 							&mac1,
 							&mac2,
@@ -177,7 +194,15 @@ func TestPHYPayloadMACPayloadLoRaWAN10(t *testing.T) {
 				},
 				NwkSEncKey: AES128Key{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 				AppSKey:    AES128Key{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-				Bytes:      []byte{64, 4, 3, 2, 1, 0, 0, 0, 0, 105, 54, 158, 238, 106, 165, 8},
+				Bytes: []byte{
+					0x40,
+					0x04, 0x03, 0x02, 0x01,
+					0x00,
+					0x00, 0x0,
+					0x00,
+					0x69, 0x36, 0x9e,
+					0xee, 0x6a, 0xa5, 0x08,
+				},
 			},
 		}
 
